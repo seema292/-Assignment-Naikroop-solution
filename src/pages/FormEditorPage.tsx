@@ -352,12 +352,20 @@ export const FormEditorPage: React.FC = () => {
             mobileTab === 'canvas' ? 'block' : 'hidden lg:block'
           }`}
         >
-          <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200/90 p-6 sm:p-10 mb-12">
-            {/* Form Title & Description Document Header */}
-            <div className="mb-8 border-b border-slate-100 pb-6">
-              <input
-                type="text"
-                value={form.title}
+          <div className="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200/90 overflow-hidden mb-12 transition-all">
+            {/* Elegant Document Cover Banner */}
+            <div className="h-28 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 relative flex items-end px-8 pb-3">
+              <div className="absolute -bottom-5 left-8 w-12 h-12 bg-white rounded-2xl shadow-md border border-slate-100 flex items-center justify-center text-xl">
+                📄
+              </div>
+            </div>
+
+            <div className="p-6 sm:p-10 pt-8">
+              {/* Form Title & Description Document Header */}
+              <div className="mb-8 border-b border-slate-100 pb-6 pt-2">
+                <input
+                  type="text"
+                  value={form.title}
                 onChange={(e) =>
                   updateFormState((prev) => ({ ...prev, title: e.target.value }))
                 }
@@ -421,6 +429,7 @@ export const FormEditorPage: React.FC = () => {
                 ))}
               </div>
             )}
+            </div>
           </div>
         </main>
 

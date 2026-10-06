@@ -7,7 +7,7 @@ import {
   Tablet,
   Monitor,
   CheckCircle2,
-  Info,
+  Sparkles,
 } from 'lucide-react';
 import type { FormSchema } from '../types/form.types';
 import { storageService } from '../services/storageService';
@@ -59,63 +59,66 @@ export const FormPreviewPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-stone-100/70">
+    <div className="min-h-screen flex flex-col bg-slate-900/95 text-slate-100">
       {/* Top Banner Toolbar */}
-      <header className="sticky top-0 z-40 bg-slate-900 text-white px-4 py-2.5 flex items-center justify-between gap-4 shadow-sm">
+      <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center justify-between gap-4 shadow-lg">
         <div className="flex items-center gap-3">
           <Button
             variant="ghost"
             size="sm"
-            className="text-slate-300 hover:text-white hover:bg-slate-800"
+            className="text-slate-300 hover:text-white hover:bg-slate-800 cursor-pointer"
             icon={<ArrowLeft className="w-4 h-4" />}
             onClick={() => navigate(`/edit/${form.id}`)}
           >
             {t('preview.exitPreview')}
           </Button>
-          <div className="h-4 w-[1px] bg-slate-700 hidden sm:block" />
-          <div className="flex items-center gap-2 text-xs text-slate-300">
-            <Info className="w-3.5 h-3.5 text-indigo-400" />
+          <div className="h-4 w-[1px] bg-slate-800 hidden sm:block" />
+          <div className="flex items-center gap-2 text-xs text-slate-400">
+            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
             <span className="hidden md:inline">{t('preview.banner')}</span>
           </div>
         </div>
 
         {/* Center: Device Switcher */}
-        <div className="hidden sm:flex items-center bg-slate-800 rounded-lg p-0.5 border border-slate-700 text-xs">
+        <div className="flex items-center bg-slate-900 rounded-xl p-1 border border-slate-800 text-xs shadow-inner">
           <button
             type="button"
             onClick={() => setDeviceView('desktop')}
-            className={`p-1.5 rounded-md transition-colors ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all font-medium cursor-pointer ${
               deviceView === 'desktop'
-                ? 'bg-indigo-600 text-white'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-indigo-600 text-white shadow-xs'
+                : 'text-slate-400 hover:text-slate-200'
             }`}
             title="Desktop view (100%)"
           >
-            <Monitor className="w-4 h-4" />
+            <Monitor className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Desktop</span>
           </button>
           <button
             type="button"
             onClick={() => setDeviceView('tablet')}
-            className={`p-1.5 rounded-md transition-colors ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all font-medium cursor-pointer ${
               deviceView === 'tablet'
-                ? 'bg-indigo-600 text-white'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-indigo-600 text-white shadow-xs'
+                : 'text-slate-400 hover:text-slate-200'
             }`}
             title="Tablet view (768px)"
           >
-            <Tablet className="w-4 h-4" />
+            <Tablet className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Tablet</span>
           </button>
           <button
             type="button"
             onClick={() => setDeviceView('mobile')}
-            className={`p-1.5 rounded-md transition-colors ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all font-medium cursor-pointer ${
               deviceView === 'mobile'
-                ? 'bg-indigo-600 text-white'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-indigo-600 text-white shadow-xs'
+                : 'text-slate-400 hover:text-slate-200'
             }`}
             title="Mobile view (375px)"
           >
-            <Smartphone className="w-4 h-4" />
+            <Smartphone className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Mobile</span>
           </button>
         </div>
 
@@ -126,24 +129,24 @@ export const FormPreviewPage: React.FC = () => {
       </header>
 
       {/* Main Preview Container */}
-      <main className="flex-1 flex justify-center p-4 sm:p-8 overflow-y-auto">
+      <main className="flex-1 flex justify-center p-4 sm:p-10 overflow-y-auto bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950">
         <div
-          className={`w-full ${deviceWidthClasses[deviceView]} transition-all duration-300`}
+          className={`w-full ${deviceWidthClasses[deviceView]} transition-all duration-300 my-auto`}
         >
-          <div className="bg-white rounded-2xl shadow-xl border border-slate-200/80 p-6 sm:p-12 min-h-[600px] my-4">
+          <div className="bg-white text-slate-900 rounded-3xl shadow-2xl border border-slate-200/90 p-6 sm:p-12 min-h-[550px] my-4">
             {submittedData ? (
               <div className="text-center py-12 space-y-4 animate-fade-in">
-                <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-2xs">
-                  <CheckCircle2 className="w-8 h-8" />
+                <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto shadow-sm">
+                  <CheckCircle2 className="w-9 h-9" />
                 </div>
                 <h2 className="text-2xl font-bold text-slate-900">
                   {t('public.successTitle')}
                 </h2>
-                <p className="text-sm text-slate-600 max-w-sm mx-auto">
+                <p className="text-sm text-slate-600 max-w-sm mx-auto leading-relaxed">
                   {form.settings?.successMessage || t('public.successMessage')}
                 </p>
-                <p className="text-xs text-indigo-600 font-medium">
-                  (Test submission saved to responses)
+                <p className="text-xs text-indigo-600 font-semibold bg-indigo-50 py-1 px-3 rounded-full inline-block">
+                  (Test submission successfully saved)
                 </p>
                 <div className="pt-4 flex justify-center gap-3">
                   <Button

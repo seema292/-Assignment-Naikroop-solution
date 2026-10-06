@@ -9,6 +9,7 @@ import {
   ExternalLink,
   Copy,
   MessageSquare,
+  Sparkles,
 } from 'lucide-react';
 import type { FormSchema, FormSubmission } from '../types/form.types';
 import { storageService } from '../services/storageService';
@@ -16,6 +17,7 @@ import { formatDateTime } from '../utils/formatters';
 import { Button } from '../components/common/Button';
 import { Badge } from '../components/common/Badge';
 import { Navbar } from '../components/common/Navbar';
+import { Footer } from '../components/common/Footer';
 
 export const SubmissionsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -89,32 +91,33 @@ export const SubmissionsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50/50">
+    <div className="min-h-screen flex flex-col bg-[#fafaf9]/80">
       <Navbar />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Header Breadcrumbs & Title */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-          <div className="space-y-1">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+          <div className="space-y-1.5">
             <div className="flex items-center gap-2 text-xs text-slate-500">
-              <Link to="/" className="hover:text-slate-800 transition-colors">
+              <Link to="/" className="hover:text-indigo-600 font-medium transition-colors">
                 Dashboard
               </Link>
               <span>/</span>
-              <Link to={`/edit/${form.id}`} className="hover:text-slate-800 transition-colors">
+              <Link to={`/edit/${form.id}`} className="hover:text-indigo-600 font-medium transition-colors">
                 {form.title}
               </Link>
               <span>/</span>
-              <span className="text-slate-900 font-medium">Responses</span>
+              <span className="text-slate-900 font-semibold">Responses</span>
             </div>
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold text-slate-900">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
                 {form.title}
               </h1>
               <Badge status={form.status} />
             </div>
-            <p className="text-xs text-slate-500">
-              {t('submissions.totalCount', { count: submissions.length })}
+            <p className="text-xs text-slate-500 flex items-center gap-2 font-medium">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+              <span>{t('submissions.totalCount', { count: submissions.length })}</span>
             </p>
           </div>
 
@@ -143,6 +146,7 @@ export const SubmissionsPage: React.FC = () => {
                 size="sm"
                 icon={<Download className="w-4 h-4" />}
                 onClick={handleExportJson}
+                className="shadow-md shadow-indigo-600/20"
               >
                 {t('submissions.exportJson')}
               </Button>
@@ -152,14 +156,14 @@ export const SubmissionsPage: React.FC = () => {
 
         {/* Content: Empty State or Submissions Table */}
         {submissions.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-slate-200/90 p-12 text-center max-w-md mx-auto my-12 shadow-2xs">
-            <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <MessageSquare className="w-7 h-7" />
+          <div className="bg-white rounded-3xl border border-slate-200/90 p-12 text-center max-w-md mx-auto my-12 shadow-sm">
+            <div className="w-16 h-16 bg-gradient-to-tr from-indigo-50 to-indigo-100/90 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xs">
+              <MessageSquare className="w-8 h-8" />
             </div>
-            <h3 className="text-lg font-semibold text-slate-900 mb-1">
+            <h3 className="text-lg font-bold text-slate-900 mb-1">
               {t('submissions.emptyTitle')}
             </h3>
-            <p className="text-xs text-slate-500 mb-6">
+            <p className="text-xs text-slate-500 mb-6 leading-relaxed">
               {t('submissions.emptySubtitle')}
             </p>
             <div className="flex justify-center gap-3">
@@ -176,31 +180,32 @@ export const SubmissionsPage: React.FC = () => {
                 size="sm"
                 icon={<ExternalLink className="w-3.5 h-3.5" />}
                 onClick={() => window.open(`/forms/${form.id}`, '_blank')}
+                className="shadow-md shadow-indigo-600/20"
               >
                 Test Fill Form
               </Button>
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-slate-700">
-                    <th className="py-3 px-4 font-semibold w-12 text-center">#</th>
-                    <th className="py-3 px-4 font-semibold w-44">
+                  <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-700">
+                    <th className="py-3.5 px-4 font-bold w-12 text-center">#</th>
+                    <th className="py-3.5 px-4 font-bold w-48">
                       {t('submissions.submittedAt')}
                     </th>
                     {questionBlocks.map((block) => (
                       <th
                         key={block.id}
-                        className="py-3 px-4 font-semibold min-w-[160px] max-w-[240px] truncate"
+                        className="py-3.5 px-4 font-bold min-w-[160px] max-w-[240px] truncate"
                         title={block.label}
                       >
                         {block.label}
                       </th>
                     ))}
-                    <th className="py-3 px-4 font-semibold w-16 text-right">
+                    <th className="py-3.5 px-4 font-bold w-16 text-right">
                       {t('common.actions')}
                     </th>
                   </tr>
@@ -209,7 +214,7 @@ export const SubmissionsPage: React.FC = () => {
                   {submissions.map((sub, index) => (
                     <tr
                       key={sub.id}
-                      className="hover:bg-slate-50/80 transition-colors group"
+                      className="hover:bg-indigo-50/20 transition-colors group"
                     >
                       <td className="py-3 px-4 text-slate-400 font-mono text-center">
                         {index + 1}
@@ -251,7 +256,7 @@ export const SubmissionsPage: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => handleDeleteSubmission(sub.id)}
-                          className="p-1.5 text-slate-400 hover:text-rose-600 rounded-md hover:bg-rose-50 transition-colors"
+                          className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors cursor-pointer"
                           title={t('submissions.deleteSubmission')}
                           aria-label="Delete submission"
                         >
@@ -266,6 +271,8 @@ export const SubmissionsPage: React.FC = () => {
           </div>
         )}
       </main>
+
+      <Footer />
     </div>
   );
 };
